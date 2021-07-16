@@ -4,8 +4,10 @@ The Generic component for running MD simulations using MMIC
 """
 
 # Add imports here
-from .mmic_md import *
+# from .mmic_md import *
 from . import models, components
+from .models import *
+from .components import *
 
 # Handle versioneer
 from ._version import get_versions
@@ -15,7 +17,7 @@ __version__ = versions["version"]
 __git_revision__ = versions["full-revisionid"]
 del get_versions, versions
 
-
+"""
 # The molecule file extensions supported by
 # the reader and writers in mmic_md
 molread_ext_maps = {
@@ -76,3 +78,4 @@ _classes_map = {
     "Trajectory": models.The_name_of_the_code_to_translate_mmschema_to/from.Traj,
     "ForceField": models.The_name_of_the_code_to_translate_mmschema_to/from.FF,
 }
+"""

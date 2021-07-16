@@ -1,3 +1,2 @@
-from .mol import *
-from .traj import *
-from .ff import *
+from .input import *
+from .output import *
