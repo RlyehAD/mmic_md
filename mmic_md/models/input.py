@@ -1,9 +1,9 @@
 from mmelemental.models.proc.base import ProcInput
-from mmelemental.models import Molecule, ForceField, ForceInput  # TrajInput
+from mmelemental.models import Molecule, ForceField, ForcesInput, TrajInput
 from pydantic import Field, validator
 from typing import Optional, Dict, List, Tuple
 
-__all__ = ["MD_Input"]
+__all__ = ["MDInput"]
 
 
 class MDInput(ProcInput):
@@ -53,24 +53,28 @@ class MDInput(ProcInput):
 
     # Output control
     F_xout: float = Field(
-        Optional,
+        None,
         description="The frequency for the simulation to write a frame of coordinates",
     )
     F_vout: float = Field(
-        Optional,
+        None,
         description="The frequency for the simulation to write the velocities",
     )
     F_eout: float = Field(
-        Optional,
+        None,
         description="The frequency for the simulation to write the energies",
+    )
+    F_fout: float = Field(
+        None,
+        description="The frequency for the simulation to write the forces",
     )
     # A F for log file output?
     F_stdout: float = Field(
-        Optional,
+        None,
         description="The frequecy for writing an standard output including info of T, P, E, and so on",
     )
     F_unit: str = Field(
-        Optional,
+        None,
         description="The unit for the frequencies to write coordinates, velocities, and energies",
     )  # May be deleted
 
@@ -97,8 +101,10 @@ class MDInput(ProcInput):
     long_forces: ForcesInput = Field(
         ..., description="Algorithms for computing long-range forces."
     )
-    cut_off: str = Field(None, description="Neighbor searching algorithm")
+    cut_off: str = Field(..., description="Neighbor searching algorithm")
 
     # Temperature and pressure coupling
-    t_couple: str = Field(..., description="Temperature coupling algorithm")
-    p_couple: str = Field(..., description="Pressure coupling algorithm")
+    t_couple: str = Field(None, description="Temperature coupling algorithm")
+    p_couple: str = Field(None, description="Pressure coupling algorithm")
+    ref_t: float = Field(None, description="The reference temperature")
+    ref_p: float = Field(None, description="The reference pressure")
