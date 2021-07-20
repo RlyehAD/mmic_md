@@ -53,28 +53,28 @@ class MDInput(ProcInput):
 
     # Output control
     F_xout: float = Field(
-        None,
+        Optional,
         description="The frequency for the simulation to write a frame of coordinates",
     )
     F_vout: float = Field(
-        None,
+        Optional,
         description="The frequency for the simulation to write the velocities",
     )
     F_eout: float = Field(
-        None,
+        Optional,
         description="The frequency for the simulation to write the energies",
     )
     F_fout: float = Field(
-        None,
+        Optional,
         description="The frequency for the simulation to write the forces",
     )
     # A F for log file output?
     F_stdout: float = Field(
-        None,
+        Optional,
         description="The frequecy for writing an standard output including info of T, P, E, and so on",
     )
     F_unit: str = Field(
-        None,
+        Optional,
         description="The unit for the frequencies to write coordinates, velocities, and energies",
     )  # May be deleted
 
@@ -95,8 +95,7 @@ class MDInput(ProcInput):
     # Nonbonded interaction
     short_forces: ForcesInput = Field(
         ..., description="Algorithms for computing short-range forces."
-    )  # Is choosing something like Buckingham potential possible? I did not find related vars in gmx or openmm. It should be
-    # included in the ff
+    )  
 
     long_forces: ForcesInput = Field(
         ..., description="Algorithms for computing long-range forces."
