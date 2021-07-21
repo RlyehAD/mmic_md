@@ -43,6 +43,7 @@ def test_mmic_md_models():
         max_steps=20,
         step_size=0.01,
         method="md",
+        #freq_write={""},
         long_forces={"method": "PME"},
         short_forces={"method": "Cutoff"},
         cut_off="Verlet",
