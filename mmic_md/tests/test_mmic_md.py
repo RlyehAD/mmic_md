@@ -47,9 +47,8 @@ def test_mmic_md_models():
         long_forces={"method": "PME"},
         short_forces={"method": "Cutoff"},
         cut_off="Verlet",
-        t_couple="Berendsen",
-        p_couple="no",
-        ref_t=300,
+       	Tcoupl_arg={"method": "Berendsen", "ref_t": 300},
+        Pcoupl_arg={"method": "no"},
     )
 
     class MDDummyComponent(TacticComponent):

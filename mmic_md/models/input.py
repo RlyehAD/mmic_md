@@ -1,7 +1,7 @@
 from mmelemental.models.proc.base import ProcInput
 from mmelemental.models import Molecule, ForceField, ForcesInput, TrajInput
 from pydantic import Field, validator
-from typing import Optional, Dict, List, Tuple
+from typing import Optional, Dict, List, Tuple, Any
 
 __all__ = ["MDInput"]
 
@@ -110,7 +110,6 @@ class MDInput(ProcInput):
 	cut_off: str = Field(..., description="Neighbor searching algorithm")
 
 	# Temperature and pressure coupling
-	t_couple: str = Field(None, description="Temperature coupling algorithm")
-	p_couple: str = Field(None, description="Pressure coupling algorithm")
-	ref_t: float = Field(None, description="The reference temperature")
-	ref_p: float = Field(None, description="The reference pressure")
+	Tcoupl_arg: Optional[Dict[str, Any]] = Field(None, description="Temperature coupling args")
+	Pcoupl_arg: Optional[Dict[str, Any]] = Field(None, description="Pressure coupling args")
+
