@@ -1,8 +1,6 @@
 name: test
 channels:
-
   - conda-forge
-
   - defaults
 dependencies:
     # Base depends
@@ -15,6 +13,10 @@ dependencies:
   - codecov
 
     # Pip-only installs
-  #- pip:
-  #  - codecov
-
+  - pip:
+    - pydantic
+    - qcelemental
+    - mmic
+    - git+https://github.com/MolSSI/mmelemental.git
+    - cmselemental
+    - git+https://github.com/MolSSI/mm_data.git
