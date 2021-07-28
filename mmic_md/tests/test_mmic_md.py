@@ -29,8 +29,9 @@ def test_mmic_md_models():
         ff = json.load(fp)
 
     inputs = mmic_md.MDInput(
-        component="mmic_md",
         molecule={"mol": mol},
+        schema_name="test",
+        schema_version=1.0,
         forcefield={"mol": ff},
         boundary=(
             "periodic",
@@ -43,10 +44,8 @@ def test_mmic_md_models():
         max_steps=20,
         step_size=0.01,
         method="md",
-        #freq_write={""},
         long_forces={"method": "PME"},
         short_forces={"method": "Cutoff"},
-        cut_off="Verlet",
        	Tcoupl_arg={"method": "Berendsen", "ref_t": 300},
         Pcoupl_arg={"method": "no"},
     )
@@ -73,6 +72,6 @@ def test_mmic_md_models():
             inputs: mmic_md.MDInput,
         ) -> Tuple[bool, mmic_md.MDOutput]:
 
-            return True, mmic_md.MDOutput(proc_input=inputs, molecule=inputs.molecule)
+            return True, mmic_md.MDOutput(proc_input=inputs, molecule=inputs.molecule, schema_name="test", schema_version=1.0, success=True)
 
     outputs = MDDummyComponent.compute(inputs)

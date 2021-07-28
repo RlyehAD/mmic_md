@@ -1,7 +1,7 @@
-from mmelemental.models.proc.base import ProcInput
+from cmselemental.models.procedures import ProcInput
 from mmelemental.models import Molecule, ForceField, ForcesInput, TrajInput
 from pydantic import Field, validator
-from typing import Optional, Dict, List, Tuple, Any
+from typing import Optional, Dict, List, Tuple, Any, Union
 
 __all__ = ["MDInput"]
 
@@ -19,15 +19,25 @@ class MDInput(ProcInput):
 		...,
 		description='Forcefield object(s) or name(s) for every Molecule defined in "mol".',
 	)
-	cell: Optional[Tuple[Tuple[float], Tuple[float]]] = Field(
+	cell: Optional[
+		Union[
+			Tuple[float, float],
+			Tuple[float, float, float, float],
+			Tuple[float, float, float, float, float, float],
+		]
+	] = Field(
 		None,
 		description="Cell dimensions in the form: ((xmin, ymin, ...), (xmax, ymax, ...))",
 	)
-	boundary: List[str] = Field(
-		None,
-		description="Boundary conditions in all dimensions e.g. (periodic, periodic, periodic) imposes periodic boundaries in 3D.",
+	boundary: Union[
+		Tuple[str, str],
+		Tuple[str, str, str, str],
+		Tuple[str, str, str, str, str, str],
+	] = Field(
+		...,
+		description="Boundary conditions in all dimensions e.g. (periodic, periodic) imposes periodic boundaries in 1D.",
 	)
-
+	
 	# I/O fields
 	trajectory: Optional[Dict[str, TrajInput]] = Field(
 		None,
@@ -107,7 +117,7 @@ class MDInput(ProcInput):
 	long_forces: ForcesInput = Field(
 		..., description="Algorithms for computing long-range forces."
 	)
-	cut_off: str = Field(..., description="Neighbor searching algorithm")
+	#cut_off: str = Field(..., description="Neighbor searching algorithm")
 
 	# Temperature and pressure coupling
 	Tcoupl_arg: Optional[Dict[str, Any]] = Field(None, description="Temperature coupling args")
