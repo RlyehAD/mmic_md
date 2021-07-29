@@ -72,6 +72,6 @@ def test_mmic_md_models():
             inputs: mmic_md.MDInput,
         ) -> Tuple[bool, mmic_md.MDOutput]:
 
-            return True, mmic_md.MDOutput(proc_input=inputs, molecule=inputs.molecule, schema_name="test", schema_version=1.0, success=True)
+            return True, mmic_md.MDOutput(proc_input=inputs, molecule=inputs.molecule, schema_name=inputs.schema_name, schema_version=inputs.schema_version, success=True)
 
     outputs = MDDummyComponent.compute(inputs)
