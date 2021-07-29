@@ -9,7 +9,7 @@ __all__ = ["MDOutput"]
 
 class MDOutput(ProcOutput):
     proc_input: MDInput = Field(
-        ..., description="Input schema used to run optimization"
+        ..., description="Input schema used to run MD simulation"
     )
     molecule: Dict[str, Molecule] = Field(
         ...,
