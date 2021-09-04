@@ -1,5 +1,7 @@
 from cmselemental.models.procedures import ProcInput
-from mmelemental.models import Molecule, ForceField, ForcesInput, TrajInput
+from mmelemental.models import Molecule
+from mmelemental.models.forcefield import ForceField, ForcesInput
+from mmelemental.models.collect import TrajInput
 from pydantic import Field, validator
 from typing import Optional, Dict, List, Tuple, Any, Union
 
