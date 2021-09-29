@@ -1,15 +1,14 @@
 from cmselemental.models.procedures import ProcInput
 from mmelemental.models.base import ProtoModel
 from mmelemental.models import Molecule
-from mmelemental.models.forcefield import ForceField  # , ForcesInput
-from mmelemental.models.collect import TrajInput
+from mmelemental.models.forcefield import ForceField
 from pydantic import Field, validator
 from typing import Optional, Dict, List, Tuple, Any, Union
 
-__all__ = ["MDInput", "ForcesInput"]
+__all__ = ["MDInput"]
 
 
-class ForcesInput(ProtoModel):
+class InputForces(ProtoModel):
     method: str = Field(
         ..., description="The algorithm used to compute the force. e.g. PME"
     )
@@ -20,8 +19,40 @@ class ForcesInput(ProtoModel):
         "angstrom", description="The unit of cutoff distance"
     )
 
+        
+class InputTraj(ProtoModel):
+    geometry_freq: Optional[int] = Field(
+        None, description="Every number of steps geometry are saved."
+    )
+    geometry_units: Optional[str] = Field(
+        "angstrom",
+        description="Units for atomic geometry. Defaults to Angstroms.",
+        dimensionality=LENGTH_DIM,
+    )
+    velocities_freq: Optional[int] = Field(
+        None,
+        description="Save velocities every 'velocities_freq' steps.",
+    )
+    velocities_units: Optional[str] = Field(
+        "angstrom/fs",
+        description="Units for atomic velocities. Defaults to Angstroms/femtoseconds.",
+        dimensionality=LENGTH_DIM / TIME_DIM,
+    )
+    forces_freq: Optional[int] = Field(
+        None, description="Every number of steps velocities are saved."
+    )
+    forces_units: Optional[str] = Field(
+        "kJ/(mol*angstrom)",
+        description="Units for atomic forces. Defaults to KiloJoules/mol.Angstroms.",
+        dimensionality=MASS_DIM * LENGTH_DIM / (SUBS_DIM * TIME_DIM ** 2),
+    )
+    freq: Optional[int] = Field(
+        None,
+        description="Every number of steps geometry, velocities, and/or forces are saved.",
+    )
+        
 
-class MDInput(ProcInput):
+class InputMD(InputProc):
     """Basic input model for MD run."""
 
     # System fields
@@ -52,7 +83,7 @@ class MDInput(ProcInput):
     )
 
     # I/O fields
-    trajectory: Optional[Dict[str, TrajInput]] = Field(
+    trajectory: Optional[Dict[str, InputTraj]] = Field(
         None,
         description="Trajectories to write for quantity 'key' every 'value' steps. e.g. {'geometry_freq': 10, 'velocities_freq': 100, 'forces_freq': 50} "
         "produces 3 trajectory objects storing positions every 10 steps, velocities, every 100 steps, and forces every 50 steps.",
@@ -92,19 +123,19 @@ class MDInput(ProcInput):
     )  # May be replaced by bond_const
 
     # Nonbonded interaction
-    short_forces: ForcesInput = Field(
-        ..., description="Algorithms for computing short-range forces."
+    short_forces: Optional[InputForces] = Field(
+        None, description="Schema model for computing short-range forces."
     )
 
-    long_forces: ForcesInput = Field(
-        ..., description="Algorithms for computing long-range forces."
+    long_forces: Optional[InputForces] = Field(
+        None, description="Schema model for computing long-range forces."
     )
     # cut_off: str = Field(..., description="Neighbor searching algorithm")
 
     # Temperature and pressure coupling
-    Tcoupl_arg: Optional[Dict[str, Any]] = Field(
+    temp_couple: Optional[Dict[str, Any]] = Field(
         None, description="Temperature coupling args"
     )
-    Pcoupl_arg: Optional[Dict[str, Any]] = Field(
+    press_couple: Optional[Dict[str, Any]] = Field(
         None, description="Pressure coupling args"
     )
