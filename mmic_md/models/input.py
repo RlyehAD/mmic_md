@@ -1,12 +1,20 @@
 from cmselemental.models.procedures import ProcInput
+from mmelemental.models.base import ProtoModel
 from mmelemental.models import Molecule
-from mmelemental.models.forcefield import ForceField, ForcesInput
+from mmelemental.models.forcefield import ForceField#, ForcesInput
 from mmelemental.models.collect import TrajInput
 from pydantic import Field, validator
 from typing import Optional, Dict, List, Tuple, Any, Union
 
-__all__ = ["MDInput"]
+__all__ = ["MDInput", "ForcesInput"]
 
+
+class ForcesInput(ProtoModel):
+	method: str = Field(..., description="The algorithm used to compute the force. e.g. PME")
+
+	cutoff: Optional[float] = Field(None, description="The cut-off distance")
+
+	cutoff_units: Optional[str] = Field("angstrom", description="The unit of cutoff distance")
 
 class MDInput(ProcInput):
 	"""Basic input model for MD run."""
@@ -69,33 +77,6 @@ class MDInput(ProcInput):
 		description="The args used to set up the frequency to wirite the system properties such as energies and forces. Requires users to specify according to the engine they choose"
 		)
 
-	"""
-	F_xout: float = Field(
-		Optional,
-		description="The frequency for the simulation to write a frame of coordinates",
-	)
-	F_vout: float = Field(
-		Optional,
-		description="The frequency for the simulation to write the velocities",
-	)
-	F_eout: float = Field(
-		Optional,
-		description="The frequency for the simulation to write the energies",
-	)
-	F_fout: float = Field(
-		Optional,
-		description="The frequency for the simulation to write the forces",
-	)
-	# A F for log file output?
-	F_stdout: float = Field(
-		Optional,
-		description="The frequecy for writing an standard output including info of T, P, E, and so on",
-	)
-	F_unit: str = Field(
-		Optional,
-		description="The unit for the frequencies to write coordinates, velocities, and energies",
-	)  # May be deleted
-	"""
 
 	# Bonded interaction
 	unconstrained_start: str = Field(
@@ -124,4 +105,5 @@ class MDInput(ProcInput):
 	# Temperature and pressure coupling
 	Tcoupl_arg: Optional[Dict[str, Any]] = Field(None, description="Temperature coupling args")
 	Pcoupl_arg: Optional[Dict[str, Any]] = Field(None, description="Pressure coupling args")
+
 
