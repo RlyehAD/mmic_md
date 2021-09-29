@@ -60,7 +60,7 @@ def test_mmic_md_models():
             return mmic_md.MDOutput
 
         @classmethod
-        def strategy_comp(cls):
+        def strategy_comps(cls):
             return mmic_md.MDComponent
 
         @classmethod
