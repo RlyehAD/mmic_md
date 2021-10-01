@@ -1,11 +1,11 @@
-from cmselemental.models.procedures import ProcInput
+from cmselemental.models.procedures import InputProc
 from mmelemental.models.base import ProtoModel
 from mmelemental.models import Molecule
 from mmelemental.models.forcefield import ForceField
 from pydantic import Field, validator
 from typing import Optional, Dict, List, Tuple, Any, Union
 
-__all__ = ["MDInput"]
+__all__ = ["InputMD"]
 
 
 class InputForces(ProtoModel):
