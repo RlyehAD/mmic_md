@@ -1,15 +1,15 @@
-from cmselemental.models.procedures import ProcOutput
-from .input import MDInput
+from cmselemental.models.procedures import OutputProc
+from .input import InputMD
 from mmelemental.models import Molecule
 from mmelemental.models.collect import Ensemble, Trajectory
 from pydantic import Field
 from typing import Optional, Dict, List
 
-__all__ = ["MDOutput"]
+__all__ = ["OutputMD"]
 
 
-class MDOutput(ProcOutput):
-    proc_input: MDInput = Field(
+class OutputMD(OutputProc):
+    proc_input: InputMD = Field(
         ..., description="Input schema used to run MD simulation"
     )
     molecule: Dict[str, Molecule] = Field(

@@ -2,6 +2,12 @@ from cmselemental.models.procedures import InputProc
 from mmelemental.models.base import ProtoModel
 from mmelemental.models import Molecule
 from mmelemental.models.forcefield import ForceField
+from mmelemental.util.units import (
+    LENGTH_DIM,
+    MASS_DIM,
+    TIME_DIM,
+    SUBS_DIM,
+)
 from pydantic import Field, validator
 from typing import Optional, Dict, List, Tuple, Any, Union
 
@@ -16,7 +22,8 @@ class InputForces(ProtoModel):
     cutoff: Optional[float] = Field(None, description="The cut-off distance")
 
     cutoff_units: Optional[str] = Field(
-        "angstrom", description="The unit of cutoff distance"
+        "angstrom", description="The unit of cutoff distance",
+        dimensionality=LENGTH_DIM,
     )
 
         
