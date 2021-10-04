@@ -63,6 +63,7 @@ class InputMD(InputProc):
     """Basic input model for MD run."""
 
     # System fields
+    """
     molecule: Dict[str, Molecule] = Field(
         ...,
         description="Molecular mechanics molecule object(s). See the :class:``Molecule`` class. "
@@ -71,6 +72,11 @@ class InputMD(InputProc):
     forcefield: Dict[str, ForceField] = Field(
         ...,
         description='Forcefield object(s) or name(s) for every Molecule defined in "mol".',
+    )
+    """
+    system: Dict[Molecule, ForceField] = Field(
+        ...,
+        description="A mapping of Molecule to its corresponding ForceField object(s).",
     )
     cell: Optional[
         Union[

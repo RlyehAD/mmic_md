@@ -5,6 +5,7 @@ Unit and regression test for the mmic_md package.
 # Import package, test suite, and other packages as needed
 import mmic_md
 import pytest
+from mmelemental.models import Molecule, ForceField
 from mmic.components.blueprints import TacticComponent
 from cmselemental.util.decorators import classproperty
 import mm_data
@@ -24,16 +25,17 @@ def test_mmic_md_imported():
 
 def test_mmic_md_models():
     with open(mol_file, "r") as fp:
-        mol = json.load(fp)
+        mol_data = json.load(fp)
+        mol = Molecule(**mol_data) 
 
     with open(ff_file, "r") as fp:
-        ff = json.load(fp)
+        ff_data = json.load(fp)
+        ff = ForceField(**ff_data)
 
     inputs = mmic_md.InputMD(
-        molecule={"mol": mol},
         schema_name="test",
         schema_version=1.0,
-        forcefield={"mol": ff},
+        system={mol: ff},
         boundary=(
             "periodic",
             "periodic",
@@ -73,6 +75,14 @@ def test_mmic_md_models():
             inputs: mmic_md.InputMD,
         ) -> Tuple[bool, mmic_md.OutputMD]:
 
-            return True, mmic_md.OutputMD(proc_input=inputs, molecule=inputs.molecule, schema_name=inputs.schema_name, schema_version=inputs.schema_version, success=True)
+            return (
+                True, 
+                mmic_md.OutputMD(proc_input=inputs, 
+                molecule=mol, 
+                schema_name=inputs.schema_name, 
+                schema_version=inputs.schema_version, 
+                success=True,
+                ),
+            )
 
     outputs = MDDummyComponent.compute(inputs)

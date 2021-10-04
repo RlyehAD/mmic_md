@@ -3,7 +3,7 @@ from .input import InputMD
 from mmelemental.models import Molecule
 from mmelemental.models.collect import Ensemble, Trajectory
 from pydantic import Field
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Union
 
 __all__ = ["OutputMD"]
 
@@ -12,7 +12,7 @@ class OutputMD(OutputProc):
     proc_input: InputMD = Field(
         ..., description="Input schema used to run MD simulation"
     )
-    molecule: Dict[str, Molecule] = Field(
+    molecule: Union[Molecule, List[Molecule]] = Field(
         ...,
         description="Molecular mechanics molecule object(s). See the :class:``Molecule`` class. "
         "Example: mol = {'ligand': Molecule, 'receptor': Molecule, 'solvent': Molecule}.",
