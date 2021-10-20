@@ -61,18 +61,8 @@ class InputTraj(ProtoModel):
 
 class InputMD(InputProc):
     """Basic input model for MD run."""
-
-    # System fields
     """
-    molecule: Dict[str, Molecule] = Field(
-        ...,
-        description="Molecular mechanics molecule object(s). See the :class:``Molecule`` class. "
-        "Example: mol = {'ligand': Molecule, 'receptor': Molecule, 'solvent': Molecule}.",
-    )
-    forcefield: Dict[str, ForceField] = Field(
-        ...,
-        description='Forcefield object(s) or name(s) for every Molecule defined in "mol".',
-    )
+    # System fields
     """
     system: Dict[Molecule, ForceField] = Field(
         ...,
