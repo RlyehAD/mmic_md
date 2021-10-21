@@ -6,6 +6,8 @@ from typing import List, Tuple, Optional
 
 # Import the generic i.e. starting component from MMIC
 from mmic.components.blueprints.generic_component import GenericComponent
+from mmic.components.blueprints import StrategyComponent
+from cmselemental.util.decorators import classproperty
 
 from ..models.input import MDInput
 from ..models.output import MDOutput
@@ -14,20 +16,29 @@ from ..models.output import MDOutput
 __all__ = ["MDComponent"]
 
 
-class MDComponent(GenericComponent):
+class MDComponent(StrategyComponent):
 	""" A sample component that reads in a Molecule and returns a ForceField object. """
 
-	@classmethod
+	@classproperty
 	def input(cls):
 		return MDInput
 
-	@classmethod
+	@@classproperty
 	def output(cls):
 		return MDOutput
 
+    @classproperty
+    def version(cls) -> str:
+        """Finds program, extracts version, returns normalized version string.
+        Returns
+        -------
+        str
+            Return a valid, safe python version string.
+        """
+        return ""
 
-	@property
-	def supported_comps(self) -> Set[str]:
+	@classproperty
+	def tactic_comps(self) -> Set[str]:
 		"""Returns the supported components e.g. set(['mmic_mda',...]).
 		Returns
 		-------
