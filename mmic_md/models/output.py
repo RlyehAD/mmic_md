@@ -27,3 +27,11 @@ class OutputMD(OutputProc):
         description="Trajectory output representing a series of snapshots of the system at "
         "different timesteps. See the :class:``Trajectory`` class.",
     )
+    observable: Optional[Dict[str, List[float]]] = Field(
+        None,
+        description="Stores any observable or physical variable not accounted for in the schema. "
+        "e.g. ligand scores used in docking simulations.",
+    )
+    observable_units: Optional[Dict[str, str]] = Field(
+        None, description="Observable units. Any unit supported by pint is allowed."
+    )
