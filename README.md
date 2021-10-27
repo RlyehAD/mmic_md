@@ -46,9 +46,13 @@ inp = mmic_md.InputMD(
 ```
 
 Examples for the Parameters:
+
 *METHOD_FOR_LONGRANGE_INTERACTION*  "PME"
+
 *METHOD_FOR_SHORT_INTERACTION*  "cut-off"
+
 *T_COUPLE_METHOD*  "Berendsen"
+
 *P_COUPLE_METHOD*  "Parrinello-Rahman"
 
 ## Runing MD Simulation
