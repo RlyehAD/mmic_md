@@ -74,7 +74,7 @@ pot_energy = outp.observables["pot_energy"]
 
 ### Copyright
 
-Copyright (c) 2021, Xu Guo
+Copyright (c) 2021,  Xu Guo, Andrew Abi-Mansour
 
 
 #### Acknowledgements
