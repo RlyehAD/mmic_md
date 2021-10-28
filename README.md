@@ -27,33 +27,9 @@ inp = mmic_md.InputMD(
     schema_name=SCHEMA_NAME,
     schema_version=SCHEMA_VERSION,
     system={mol: ff},
-    boundary=(
-        "periodic",
-        "periodic",
-        "periodic",
-        "periodic",
-        "periodic",
-        "periodic",
-    ),
-    max_steps=TOTAL_STEP_NUMBER,
-    step_size=STEP_SIZE,
-    method="md",
-    long_forces={"method": METHOD_FOR_LONGRANGE_INTERACTION},
-    short_forces={"method": METHOD_FOR_SHORT_INTERACTION},
-    temp_couple={"method": T_COUPLE_METHOD, "ref_t": REFERENCE_T},
-    press_couple={"method": P_COUPLE_METHOD},
+    ...
 )	
 ```
-
-Examples for the Parameters:
-
-*METHOD_FOR_LONGRANGE_INTERACTION*  "PME"
-
-*METHOD_FOR_SHORT_INTERACTION*  "cut-off"
-
-*T_COUPLE_METHOD*  "Berendsen"
-
-*P_COUPLE_METHOD*  "Parrinello-Rahman"
 
 ## Runing MD Simulation
 ```python
