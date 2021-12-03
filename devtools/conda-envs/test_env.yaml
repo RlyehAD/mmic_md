@@ -18,5 +18,5 @@ dependencies:
     - qcelemental
     - mmic
     - mmelemental
-    - git+https://github.com/MolSSI/cmselemental.git
+    - cmselemental
     - git+https://github.com/MolSSI/mm_data.git
