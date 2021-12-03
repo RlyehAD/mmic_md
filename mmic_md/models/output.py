@@ -1,7 +1,7 @@
 from cmselemental.models.procedures import OutputProc
 from .input import InputMD
 from mmelemental.models import Molecule
-from mmelemental.models.collect import Ensemble, Trajectory
+from mmelemental.models.collect import Trajectory
 from pydantic import Field
 from typing import Optional, Dict, List, Union
 
@@ -16,11 +16,6 @@ class OutputMD(OutputProc):
         ...,
         description="Molecular mechanics molecule object(s). See the :class:``Molecule`` class. "
         "Example: mol = {'ligand': Molecule, 'receptor': Molecule, 'solvent': Molecule}.",
-    )
-    ensemble: Optional[Dict[str, Ensemble]] = Field(
-        None,
-        description="Ensemble output for a series of microstates of molecules. "
-        "See the :class:``Ensemble`` class.",
     )
     trajectory: Optional[Dict[str, Trajectory]] = Field(
         None,
