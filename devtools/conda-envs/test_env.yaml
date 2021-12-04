@@ -1,6 +1,7 @@
 name: test
 channels:
   - conda-forge
+  
   - defaults
 dependencies:
     # Base depends
@@ -16,7 +17,7 @@ dependencies:
   - pip:
     - pydantic
     - qcelemental
-    - mmic
-    - mmelemental
     - cmselemental
+    - mmelemental
+    - mmic
     - git+https://github.com/MolSSI/mm_data.git
