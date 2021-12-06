@@ -5,7 +5,9 @@ Unit and regression test for the mmic_md package.
 # Import package, test suite, and other packages as needed
 import mmic_md
 import pytest
+from mmelemental.models import Molecule, ForceField
 from mmic.components.blueprints import TacticComponent
+from cmselemental.util.decorators import classproperty
 import mm_data
 from typing import Tuple
 import sys
@@ -23,16 +25,17 @@ def test_mmic_md_imported():
 
 def test_mmic_md_models():
     with open(mol_file, "r") as fp:
-        mol = json.load(fp)
+        mol_data = json.load(fp)
+        mol = Molecule(**mol_data) 
 
     with open(ff_file, "r") as fp:
-        ff = json.load(fp)
+        ff_data = json.load(fp)
+        ff = ForceField(**ff_data)
 
-    inputs = mmic_md.MDInput(
-        molecule={"mol": mol},
+    inputs = mmic_md.InputMD(
         schema_name="test",
         schema_version=1.0,
-        forcefield={"mol": ff},
+        system={mol: ff},
         boundary=(
             "periodic",
             "periodic",
@@ -46,32 +49,40 @@ def test_mmic_md_models():
         method="md",
         long_forces={"method": "PME"},
         short_forces={"method": "Cutoff"},
-       	Tcoupl_arg={"method": "Berendsen", "ref_t": 300},
-        Pcoupl_arg={"method": "no"},
+       	temp_couple={"method": "Berendsen", "ref_t": 300},
+        press_couple={"method": "no"},
     )
 
     class MDDummyComponent(TacticComponent):
-        @classmethod
+        @classproperty
         def input(cls):
-            return mmic_md.MDInput
+            return mmic_md.InputMD
 
-        @classmethod
+        @classproperty
         def output(cls):
-            return mmic_md.MDOutput
+            return mmic_md.OutputMD
 
         @classmethod
-        def strategy_comp(cls):
+        def strategy_comps(cls):
             return mmic_md.MDComponent
 
-        @classmethod
-        def get_version(cls):
+        @classproperty
+        def version(cls):
             return None
 
         def execute(
             self,
-            inputs: mmic_md.MDInput,
-        ) -> Tuple[bool, mmic_md.MDOutput]:
+            inputs: mmic_md.InputMD,
+        ) -> Tuple[bool, mmic_md.OutputMD]:
 
-            return True, mmic_md.MDOutput(proc_input=inputs, molecule=inputs.molecule, schema_name=inputs.schema_name, schema_version=inputs.schema_version, success=True)
+            return (
+                True, 
+                mmic_md.OutputMD(proc_input=inputs, 
+                molecule=mol, 
+                schema_name=inputs.schema_name, 
+                schema_version=inputs.schema_version, 
+                success=True,
+                ),
+            )
 
     outputs = MDDummyComponent.compute(inputs)
